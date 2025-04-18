@@ -1,0 +1,27 @@
+- hosts: kaizen
+  become: yes
+  vars:
+    hello:
+      - httpd
+      - tree
+      - wget
+      - unzip
+    world: httpd
+    kaizen: started
+
+  tasks:
+  - name: Install packages
+    ansible.builtin.dnf:
+      name: "{{ hello }}"
+      state: present
+    notify: 
+      - Start service httpd
+
+  handlers:
+  - name: Start service httpd
+    ansible.builtin.service:
+      name: "{{ world }}"
+      state: "{{ kaizen }}"
+      
+
+  
